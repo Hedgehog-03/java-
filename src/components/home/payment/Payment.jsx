@@ -15,11 +15,9 @@ import {
   DatePicker
 } from "antd";
 import moment from 'moment'
-import { SearchOutlined, PlusOutlined } from "@ant-design/icons";
+import { SearchOutlined } from "@ant-design/icons";
 import { getPay} from "@/request/payment";
 const { Search } = Input;
-const { Option } = Select;
-const { TextArea } = Input;
 
 function Interview() {
   // 搜索框的数据源(受控组件)
@@ -64,21 +62,6 @@ function Interview() {
       key: "staffName",
       ellipsis: true,
     },
-    
-    // {
-    //   title: "操作",
-    //   dataIndex: "action",
-    //   key: "action",
-    //   // render: (_, record) => (
-    //   //   // <a href="#" onClick={(e) => editByKey(e, record)}>
-    //   //   //   编辑
-    //   //   // </a>
-    //   // // <Button type="primary" onClick={(e) => editByKey(e, record)}>编辑</Button>
-    //   //  ),
-    //   ellipsis: true,
-    //   width: 100,
-    //   align: "center",
-    // },
   ];
   // 表格数据
   const [data, setData] = useState([]);
@@ -209,15 +192,6 @@ function Interview() {
           className={style.searchInput}
         />
         <div style={{ marginBottom: "15px" }}>
-          {/* <Button
-            type="primary"
-            onClick={(e) => setNewItemModalVisible(true)}
-            size="middle"
-            icon={<PlusOutlined />}
-            className={style.btn}
-          >
-            新建
-          </Button> */}
         </div>
         <Table
           columns={columns}
@@ -287,15 +261,9 @@ function Interview() {
           ]}
         >
           <Input onChange={e=>handleInputChange(e)} name="arrive"/>
-          {/* <DatePicker 
-          onChange={(value)=>{console.log(value)}}
-          showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }} /> */}
         </Form.Item>
         <Form.Item name="leaveTime" label="离开时间">
           <Input onChange={e=>handleInputChange(e)} name="leave"/>
-          {/* <DatePicker 
-          onChange={(value)=>{console.log(value);}} 
-          showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}/> */}
         </Form.Item>
         <Form.Item name="lastTime" label="持续时间">
           <Input onChange={e=>handleInputChange(e)} name="during"/>

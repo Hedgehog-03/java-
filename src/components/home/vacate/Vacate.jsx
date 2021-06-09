@@ -19,7 +19,6 @@ import { SearchOutlined, PlusOutlined } from "@ant-design/icons";
 import { getVacate, postVacate, putVacate } from "@/request/vacate";
 const { Search } = Input;
 const { Option } = Select;
-const { TextArea } = Input;
 
 function Interview() {
   // 搜索框的数据源(受控组件)
@@ -82,11 +81,8 @@ function Interview() {
       dataIndex: "action",
       key: "action",
       render: (_, record) => (
-        // <a href="#" onClick={(e) => editByKey(e, record)}>
-        //   编辑
-        // </a>
-      <Button type="primary" onClick={(e) => editByKey(e, record)}>编辑</Button>
-       ),
+        <Button type="primary" onClick={(e) => editByKey(e, record)}>编辑</Button>
+      ),
       ellipsis: true,
       width: 100,
       align: "center",

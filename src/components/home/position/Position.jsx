@@ -10,17 +10,12 @@ import {
   Modal,
   message,
   Form,
-  Select,
   Pagination,
-  DatePicker,
   Space
 } from "antd";
-import moment from 'moment'
 import { SearchOutlined, PlusOutlined,DeleteOutline,ExclamationCircleOutlined } from "@ant-design/icons";
 import { getPosition, postPosition, putPosition,delPosition } from "@/request/position";
 const { Search } = Input;
-const { Option } = Select;
-const { TextArea } = Input;
 const { confirm } = Modal;
 
 function Interview() {
@@ -59,13 +54,10 @@ function Interview() {
       dataIndex: "action",
       key: "action",
       render: (_, record) => (
-        // <a href="#" onClick={(e) => editByKey(e, record)}>
-        //   编辑
-        // </a>
         <Space size="middle">
-      <Button type="primary" onClick={(e) => editByKey(e, record)}>编辑</Button>
-      <Button type="primary" onClick={(e) => deleteByKey(e, record)}>删除</Button>
-      </Space>
+          <Button type="primary" onClick={(e) => editByKey(e, record)}>编辑</Button>
+          <Button type="primary" onClick={(e) => deleteByKey(e, record)}>删除</Button>
+        </Space>
        ),
       ellipsis: true,
       
@@ -303,15 +295,9 @@ function Interview() {
           ]}
         >
           <Input onChange={e=>handleInputChange(e)} name="arrive"/>
-          {/* <DatePicker 
-          onChange={(value)=>{console.log(value)}}
-          showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }} /> */}
         </Form.Item>
         <Form.Item name="basicWage" label="基础工资">
           <Input onChange={e=>handleInputChange(e)} name="leave"/>
-          {/* <DatePicker 
-          onChange={(value)=>{console.log(value);}} 
-          showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}/> */}
         </Form.Item>
         
           <Form.Item wrapperCol={{ offset: 6 }}>
@@ -354,46 +340,42 @@ function Interview() {
             <Input />
           </Form.Item>
           <Form.Item
-          name={['user', 'count']}
-          label="总数"
-          hasFeedback
-          rules={[
-            {
-              required:true,
-            },
-          ]}
-        >
-          <Input />
-          
-        </Form.Item>
-        <Form.Item
-          name={['user', 'basicWage']}
-          label="基础工资"
-          hasFeedback
-          rules={[
-            {
-              required:true,
-            },
-          ]}
-        >
-          <Input />
-          
-        </Form.Item>
-        <Form.Item
-          name={['user', 'name']}
-          label="职位名称"
-          hasFeedback
-          rules={[
-            {
-              required:true,
-            },
-          ]}
-        >
-          <Input />
-          
-        </Form.Item>
-        
-         
+            name={['user', 'count']}
+            label="总数"
+            hasFeedback
+            rules={[
+              {
+                required:true,
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name={['user', 'basicWage']}
+            label="基础工资"
+            hasFeedback
+            rules={[
+              {
+                required:true,
+              },
+            ]}
+          >
+            <Input />
+
+          </Form.Item>
+          <Form.Item
+            name={['user', 'name']}
+            label="职位名称"
+            hasFeedback
+            rules={[
+              {
+                required:true,
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
           <Form.Item wrapperCol={{ offset: 6 }}>
             <Button type="primary" htmlType="submit" className={style.btn}>
               新建
