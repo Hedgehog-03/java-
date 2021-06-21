@@ -1,5 +1,4 @@
-// 员工面试
-
+// 员工工资单
 import style from "./style.module.css";
 import React, { useState, useEffect } from "react";
 import {
@@ -7,16 +6,12 @@ import {
   Card,
   Input,
   Button,
-  Modal,
   message,
-  Form,
-  Select,
   Pagination,
-  DatePicker
 } from "antd";
 import moment from 'moment'
 import { SearchOutlined } from "@ant-design/icons";
-import { getPay} from "@/request/payment";
+import { getPay } from "@/request/payment";
 const { Search } = Input;
 
 function Interview() {
@@ -65,16 +60,6 @@ function Interview() {
   ];
   // 表格数据
   const [data, setData] = useState([]);
-  // 新建元素对话框的显示与隐藏
-  const [newItemModalVisible, setNewItemModalVisible] = useState(false);
-  // 新建元素对话框里form表单
-  const [newItemForm] = Form.useForm();
-  // 编辑元素对话框里的form表单
-  const [editItemForm] = Form.useForm();
-  // 编辑对话框的显示与隐藏
-  const [editItemModalVisible, setEditItemModalVisible] = useState(false);
-  // 编辑对话框表单的默认值
-  const [editFormValues, setEditFormValues] = useState({});
   // 分页器
   const [total, setTotal] = useState(0);
   const [pagination, setPagination] = useState({
@@ -94,66 +79,6 @@ function Interview() {
       pageSize: size,
     });
   };
-  // 监听新建对话框的取消事件
-  const handleNewItemCancel = () => {
-    newItemForm.resetFields();
-    setNewItemModalVisible(false);
-    message.info("已取消新建列表项！");
-  };
-  // 监听新建对话框的确认事件(表单的onFinish替代)
-  const onNewItemModalFinish = (values) => {
-    newItemForm.resetFields();
-    values.user.staffId = Number(values.user.staffId);
-    values.user.arriveTime = values.user.arriveTime.valueOf()
-    values.user.leaveTime = values.user.leaveTime.valueOf()
-    console.log(values);
-    postCheck(values.user).then((res) => {
-      if (res.data.status !== 200) return message.error("新建失败！");
-      message.success("新建成功！");
-      handleGetInterview();
-    });
-    setNewItemModalVisible(false);
-  };
-  // 监听编辑按钮的点击
-  const editByKey = (e, record) => {
-    e.preventDefault();
-    console.log(record);
-    setEditFormValues(record);
-    setEditItemModalVisible(true);
-  };
-  // 监听编辑对话框的取消事件
-  const handleEditItemCancel = () => {
-    setEditItemModalVisible(false);
-    editItemForm.resetFields();
-    message.info("已取消编辑！");
-  };
-  // 监听编辑对话框的确认事件(表单的onFinish替代)
-  const onEditItemModalFinish = (values) => {
-    editItemForm.resetFields();
-    
-    values.staffId = Number(values.id)
-    delete values.staffName
-    
-    console.log('values',values);
-    
-    putCheck(values).then((res) => {
-      
-      console.log('res',res);
-      if (res.data.status !== 200) return message.error("修改失败！");
-      handleGetInterview();
-      message.success("修改成功！");
-    });
-    setEditItemModalVisible(false);
-  };
-  const validateMessages = {
-    required: "必填",
-    types: {
-      number: "请输入数字 !",
-    },
-    pattern: {
-      mismatch: "${label}只能由中文或英文组成，且长度不超过10位！",
-    },
-  };
   const handleGetInterview = () => {
     getPay(pagination.current, pagination.pageSize, "").then((res) => {
       console.log(res);
@@ -167,10 +92,9 @@ function Interview() {
     handleGetInterview();
   }, [pagination]);
   return (
-    <div>
-      <Card
+    <Card
         title={
-          <span style={{ fontSize: "30px", fontWeight: 700 }}>员工考勤</span>
+          <span style={{ fontSize: "30px", fontWeight: 700 }}>员工工资单</span>
         }
         style={{ width: "100%", marginTop: "20px" }}
       >
@@ -207,138 +131,6 @@ function Interview() {
           onChange={handleTableChange}
         />
       </Card>
-      <Modal
-        title="编辑"
-        visible={editItemModalVisible}
-        onCancel={handleEditItemCancel}
-        width={800}
-        footer={null}
-        getContainer={false}
-      >
-        <Form
-          validateMessages={validateMessages}
-          labelCol={{ span: 6 }}
-          wrapperCol={{ span: 15 }}
-          form={editItemForm}
-          onFinish={onEditItemModalFinish}
-          initialValues={editFormValues}
-        >
-         <Form.Item
-          name="id"
-          label="id"
-          rules={[
-            {
-              required:true,
-              type:'number',
-              message: 'The input is not valid Number!',
-            }
-          ]}
-        >
-          <Input onChange={e=>handleInputChange(e)} name="id"/>
-        </Form.Item>
-        <Form.Item
-          name="staffName"
-          label="姓名"
-          rules={[
-            {
-              required: true,
-              
-            },{
-              max:10,
-              message: '姓名不能大于10个字符',
-            }
-          ]}
-        >
-          <Input onChange={e=>handleInputChange(e)} name="name"/>
-        </Form.Item>
-        <Form.Item
-          name="arriveTime"
-          label="到达时间"
-          rules={[
-            {
-              required:true,
-            },
-          ]}
-        >
-          <Input onChange={e=>handleInputChange(e)} name="arrive"/>
-        </Form.Item>
-        <Form.Item name="leaveTime" label="离开时间">
-          <Input onChange={e=>handleInputChange(e)} name="leave"/>
-        </Form.Item>
-        <Form.Item name="lastTime" label="持续时间">
-          <Input onChange={e=>handleInputChange(e)} name="during"/>
-        </Form.Item>
-          <Form.Item wrapperCol={{ offset: 6 }}>
-            <Button type="primary" htmlType="submit" className={style.btn}>
-              确认
-            </Button>
-            <Button
-              htmlType="button"
-              onClick={handleEditItemCancel}
-              className={style.btn}
-            >
-              取消
-            </Button>
-          </Form.Item>
-        </Form>
-      </Modal>
-      <Modal
-        title="新建员工面试"
-        visible={newItemModalVisible}
-        onCancel={handleNewItemCancel}
-        footer={null}
-        getContainer={false}
-      >
-        <Form
-          validateMessages={validateMessages}
-          labelCol={{ span: 6 }}
-          wrapperCol={{ span: 15 }}
-          form={newItemForm}
-          onFinish={onNewItemModalFinish}
-        >
-          <Form.Item
-            name={['user', 'staffId']}
-            label="员工ID"
-            hasFeedback
-            rules={[
-              { required: true },
-              
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-          name={['user', 'arriveTime']}
-          label="到达时间"
-          hasFeedback
-          rules={[
-            {
-              required:true,
-            },
-          ]}
-        >
-          {/* <Input /> */}
-          <DatePicker onChange={(value)=>{console.log(value);}} />
-        </Form.Item>
-        <Form.Item name={['user', 'leaveTime']} label="离开时间" hasFeedback>
-        <DatePicker onChange={(value)=>{console.log(value);}} />
-        </Form.Item>
-         
-          <Form.Item wrapperCol={{ offset: 6 }}>
-            <Button type="primary" htmlType="submit" className={style.btn}>
-              新建
-            </Button>
-            <Button
-              htmlType="button"
-              onClick={handleNewItemCancel}
-              className={style.btn}
-            >
-              取消
-            </Button>
-          </Form.Item>
-        </Form>
-      </Modal>
-    </div>
   );
 }
 

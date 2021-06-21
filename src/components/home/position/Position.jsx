@@ -11,10 +11,19 @@ import {
   message,
   Form,
   Pagination,
-  Space
+  Space,
 } from "antd";
-import { SearchOutlined, PlusOutlined,DeleteOutline,ExclamationCircleOutlined } from "@ant-design/icons";
-import { getPosition, postPosition, putPosition,delPosition } from "@/request/position";
+import {
+  SearchOutlined,
+  PlusOutlined,
+  ExclamationCircleOutlined,
+} from "@ant-design/icons";
+import {
+  getPosition,
+  postPosition,
+  putPosition,
+  delPosition,
+} from "@/request/position";
 const { Search } = Input;
 const { confirm } = Modal;
 
@@ -40,14 +49,12 @@ function Interview() {
       dataIndex: "basicWage",
       key: "basicWage",
       ellipsis: true,
-      
     },
     {
       title: "数量",
       dataIndex: "count",
       key: "count",
       ellipsis: true,
-      
     },
     {
       title: "操作",
@@ -55,12 +62,15 @@ function Interview() {
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <Button type="primary" onClick={(e) => editByKey(e, record)}>编辑</Button>
-          <Button type="primary" onClick={(e) => deleteByKey(e, record)}>删除</Button>
+          <Button type="primary" onClick={(e) => editByKey(e, record)}>
+            编辑
+          </Button>
+          <Button type="primary" onClick={(e) => deleteByKey(e, record)}>
+            删除
+          </Button>
         </Space>
-       ),
+      ),
       ellipsis: true,
-      
     },
   ];
   // 表格数据
@@ -87,8 +97,8 @@ function Interview() {
     setSearchValue(e.target.value);
     if (!e.target.value) handleGetPosition();
   };
-   // 监听单行删除按钮的点击
-   const deleteByKey = (e, id) => {
+  // 监听单行删除按钮的点击
+  const deleteByKey = (e, id) => {
     e.preventDefault();
     // 确认删除对话框
     confirm({
@@ -106,7 +116,7 @@ function Interview() {
     });
   };
   const handleDeleteTrain = (id) => {
-    console.log('id',id);
+    console.log("id", id);
     delPosition(id.id).then((res) => {
       if (res.status !== 200) return message.error("删除失败！");
       message.success("删除成功！");
@@ -155,15 +165,14 @@ function Interview() {
   // 监听编辑对话框的确认事件(表单的onFinish替代)
   const onEditItemModalFinish = (values) => {
     editItemForm.resetFields();
-    
-    values.id = Number(values.id)
-    values.basicWage = Number(values.basicWage)
-    values.count = Number(values.count)
-    console.log('values',values);
-    
+
+    values.id = Number(values.id);
+    values.basicWage = Number(values.basicWage);
+    values.count = Number(values.count);
+    console.log("values", values);
+
     putPosition(values).then((res) => {
-      
-      console.log('res',res);
+      console.log("res", res);
       if (res.data.status !== 200) return message.error("修改失败！");
       handleGetPosition();
       message.success("修改成功！");
@@ -195,7 +204,7 @@ function Interview() {
     <div>
       <Card
         title={
-          <span style={{ fontSize: "30px", fontWeight: 700 }}>员工考勤</span>
+          <span style={{ fontSize: "30px", fontWeight: 700 }}>员工职位</span>
         }
         style={{ width: "100%", marginTop: "20px" }}
       >
@@ -257,49 +266,49 @@ function Interview() {
           onFinish={onEditItemModalFinish}
           initialValues={editFormValues}
         >
-         <Form.Item
-          name="id"
-          label="id"
-          rules={[
-            {
-              required:true,
-              type:'number',
-              message: 'The input is not valid Number!',
-            }
-          ]}
-        >
-          <Input onChange={e=>handleInputChange(e)} name="id"/>
-        </Form.Item>
-        <Form.Item
-          name="name"
-          label="职位名称"
-          rules={[
-            {
-              required: true,
-              
-            },{
-              max:10,
-              message: '姓名不能大于10个字符',
-            }
-          ]}
-        >
-          <Input onChange={e=>handleInputChange(e)} name="name"/>
-        </Form.Item>
-        <Form.Item
-          name="count"
-          label="总数"
-          rules={[
-            {
-              required:true,
-            },
-          ]}
-        >
-          <Input onChange={e=>handleInputChange(e)} name="arrive"/>
-        </Form.Item>
-        <Form.Item name="basicWage" label="基础工资">
-          <Input onChange={e=>handleInputChange(e)} name="leave"/>
-        </Form.Item>
-        
+          <Form.Item
+            name="id"
+            label="id"
+            rules={[
+              {
+                required: true,
+                type: "number",
+                message: "The input is not valid Number!",
+              },
+            ]}
+          >
+            <Input onChange={(e) => handleInputChange(e)} name="id" />
+          </Form.Item>
+          <Form.Item
+            name="name"
+            label="职位名称"
+            rules={[
+              {
+                required: true,
+              },
+              {
+                max: 10,
+                message: "姓名不能大于10个字符",
+              },
+            ]}
+          >
+            <Input onChange={(e) => handleInputChange(e)} name="name" />
+          </Form.Item>
+          <Form.Item
+            name="count"
+            label="总数"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Input onChange={(e) => handleInputChange(e)} name="arrive" />
+          </Form.Item>
+          <Form.Item name="basicWage" label="基础工资">
+            <Input onChange={(e) => handleInputChange(e)} name="leave" />
+          </Form.Item>
+
           <Form.Item wrapperCol={{ offset: 6 }}>
             <Button type="primary" htmlType="submit" className={style.btn}>
               确认
@@ -315,7 +324,7 @@ function Interview() {
         </Form>
       </Modal>
       <Modal
-        title="新建员工面试"
+        title="新建员工职位"
         visible={newItemModalVisible}
         onCancel={handleNewItemCancel}
         footer={null}
@@ -329,48 +338,44 @@ function Interview() {
           onFinish={onNewItemModalFinish}
         >
           <Form.Item
-            name={['user', 'id']}
+            name={["user", "id"]}
             label="ID"
             hasFeedback
-            rules={[
-              { required: true },
-              
-            ]}
+            rules={[{ required: true }]}
           >
             <Input />
           </Form.Item>
           <Form.Item
-            name={['user', 'count']}
+            name={["user", "count"]}
             label="总数"
             hasFeedback
             rules={[
               {
-                required:true,
+                required: true,
               },
             ]}
           >
             <Input />
           </Form.Item>
           <Form.Item
-            name={['user', 'basicWage']}
+            name={["user", "basicWage"]}
             label="基础工资"
             hasFeedback
             rules={[
               {
-                required:true,
+                required: true,
               },
             ]}
           >
             <Input />
-
           </Form.Item>
           <Form.Item
-            name={['user', 'name']}
+            name={["user", "name"]}
             label="职位名称"
             hasFeedback
             rules={[
               {
-                required:true,
+                required: true,
               },
             ]}
           >

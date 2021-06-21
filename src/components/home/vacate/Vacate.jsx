@@ -209,7 +209,7 @@ function Interview() {
     <div>
       <Card
         title={
-          <span style={{ fontSize: "30px", fontWeight: 700 }}>员工考勤</span>
+          <span style={{ fontSize: "30px", fontWeight: 700 }}>员工请假记录</span>
         }
         style={{ width: "100%", marginTop: "20px" }}
       >
@@ -373,7 +373,7 @@ function Interview() {
         </Form>
       </Modal>
       <Modal
-        title="新建员工面试"
+        title="新建员工请假记录"
         visible={newItemModalVisible}
         onCancel={handleNewItemCancel}
         footer={null}
